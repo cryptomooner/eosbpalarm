@@ -1,16 +1,19 @@
 /* eslint-disable */
-var invalidPrototcolRegex = /^(%20|\s)*(javascript|data)/im;
-var ctrlCharactersRegex = /[^\x20-\x7E]/gmi;
-var urlSchemeRegex = /^([^:]+):/gm;
-var relativeFirstCharacters = ['.', '/']
+let invalidPrototcolRegex = /^(%20|\s)*(javascript|data)/im;
+let ctrlCharactersRegex = /[^\x20-\x7E]/gmi;
+let urlSchemeRegex = /^([^:]+):/gm;
+let relativeFirstCharacters = ['.', '/']
+
+var favoriteBlockProducerName = 'eosswedenorg'
+var favoriteBlockProducerRanking = 500
 
 function isRelativeUrl(url) {
     return relativeFirstCharacters.indexOf(url[0]) > -1;
 }
 
 function sanitizeUrl(url) {
-    var urlScheme, urlSchemeParseResults;
-    var sanitizedUrl = url.replace(ctrlCharactersRegex, '');
+    let urlScheme, urlSchemeParseResults;
+    let sanitizedUrl = url.replace(ctrlCharactersRegex, '');
 
     if (isRelativeUrl(sanitizedUrl)) {
         return sanitizedUrl;
@@ -80,10 +83,7 @@ if (networkParam)
     defaultIndex = networkParam;
 const network = networks[defaultIndex];
 
-var eosVoter = class {
-    constructor() {
-        this.eos = null;
-    }
+var eosAlarm = class {
 
     addTd(text) {
         var td = document.createElement('td');
@@ -92,16 +92,18 @@ var eosVoter = class {
     }
 
     getSelectedBlockProducer() {
-        document.getElementsByName("bpVote").forEach(function (bp) {
+        document.getElementsByName("bpFollow").forEach(function (bp) {
             if (bp.checked) return bp.value;
         });
     }
 
     selectBlockProducer() {
-        let bp = voter.getSelectedBlockProducer();
+        let bp = this.getSelectedBlockProducer()
+        document.getElementById("following").innerText = "Following: ".concat(bp)
+        favoriteBlockProducerName = bp
     }
 
-    populateBPs() {
+    populateBlockProducers() {
         // populate producer table
         return this.eosPublic.getTableRows({
             "json": true,
@@ -113,17 +115,14 @@ var eosVoter = class {
     }
 
     refreshBlockProducers() {
-        var eosOptions = {};
-        var table;
-
-        var config = {
+        let config = {
             chainId: network.chainId, // 32 byte (64 char) hex string
             expireInSeconds: 60,
             httpEndpoint: "http" + (network.secured ? 's' : '') + '://' + network.host + ':' + network.port
         };
 
         this.eosPublic = new Eos(config);
-        this.populateBPs().then(res => {
+        this.populateBlockProducers().then(res => {
             this.buildTable(res);
         });
     }
@@ -138,28 +137,32 @@ var eosVoter = class {
             let rowSanitized = sanitizeUrl(row.url);
             let tr = document.createElement('tr');
             table.append(tr);
-            tr.append(this.addTd('<input name="bpVote" type="radio" value="' + row.owner + '" ' + '' + ' >'));
+            tr.append(this.addTd('<input name="bpVote" type="radio" value="' + row.owner + '" ' + (row.owner === favoriteBlockProducerName ? 'checked' : '') + ' >'));
             tr.append(this.addTd(i + 1));
             tr.append(this.addTd("<a href='" + rowSanitized + "'>" + row.owner + "</a>"));
             tr.append(this.addTd(this.cleanNumber(row.total_votes)));
             tr.append(this.addTd(this.createProgressBar(this.cleanPercent(this.voteNumber(row.total_votes) / this.votes))));
+
+            if (row.owner === favoriteBlockProducerName) checkRanking(i + 1)
         }
 
-        document.getElementsByName("bpVote").forEach(e => {
+        document.getElementsByName("bpFollow").forEach(e => {
             e.onclick = this.selectBlockProducer;
         });
+
+        this.selectBlockProducer()
         return table;
     }
 
     countTotalVotes(res) {
         this.votes = 0;
-        for (var i = res.rows.length - 1; i >= 0; i--) {
+        for (let i = res.rows.length - 1; i >= 0; i--) {
             this.votes += this.voteNumber(res.rows[i].total_votes);
         }
     }
 
     search() {
-        var input, filter, table, tr, td, i;
+        let input, filter, table, tr, td, i;
         input = document.getElementById("search");
         filter = input.value.toUpperCase();
         table = document.getElementById("bps");
@@ -196,6 +199,24 @@ var eosVoter = class {
         return Math.round(num * 10000) / 100 + "%";
     }
 }
-var voter = new eosVoter();
-voter.refreshBlockProducers();
+
+function refresh() {
+    eosAlarm.refreshBlockProducers();
+}
+
+var eosAlarm = new eosAlarm();
+eosAlarm.refreshBlockProducers();
+
+function checkRanking(rank) {
+    var audio
+    if (rank === 1) {
+        audio = audios.fly
+    } else if (favoriteBlockProducerRanking < rank) {
+        audio = audios.down
+    } else if (favoriteBlockProducerRanking > rank) {
+        audio = audios.levelUp
+    }
+
+    playAudio(audio, rank === 1)
+}
 

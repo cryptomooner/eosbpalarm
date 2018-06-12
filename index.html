@@ -10,6 +10,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>EOSIO Block Producer Alarm</title>
+    <meta http-equiv="refresh" content="30">
 </head>
 
 <body>
@@ -26,12 +27,15 @@
             <img src="eosio-logo.png" width="250px" class="mb-3">
         </a>
         <h1 class="text-eos">EOSIO Block Producer Alarm</h1>
+        <button type="refresh" class="btn-primary" onclick="refresh()">Refresh</button>
+        <p/>
+        <h4 id="following"></h4>
     </div>
 </header>
 <div class="container bg-white">
     <div class="mb-2">
         <div class="form-group col-sm-3 float-right pr-0">
-            <input type="text" id="search" class="form-control" onkeyup="voter.search()" placeholder="Search..."/>
+            <input type="text" id="search" class="form-control" onkeyup="eosAlarm.search()" placeholder="Search..."/>
         </div>
     </div>
     <table class="table table-striped" id="bps">
@@ -40,7 +44,6 @@
             <th scope="col">Follow</th>
             <th scope="col">Rank</th>
             <th scope="col">Name</th>
-            <!-- <th scope="col">Location</th> -->
             <th scope="col">Total Votes</th>
             <th scope="col">Percentage of Votes</th>
         </tr>
@@ -57,7 +60,8 @@
 </footer>
 
 <script src="js/eosjs.js"></script>
-<script type="text/javascript" src="js/eos-alarm.js"></script>
+<script src="js/eos-alarm.js"></script>
+<script src="js/alarm-player.js"></script>
 </body>
 
 </html>
