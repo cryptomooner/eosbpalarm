@@ -134,6 +134,10 @@ body {
     height: 30px;
 }
 
+text-eos {
+    color: #443f54 !important
+}
+
 .download-panel {
     text-align: center;
     margin: 10px;
