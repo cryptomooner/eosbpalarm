@@ -1,231 +1,63 @@
 <html>
-
 <head>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
-	 crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Heebo:500,400,300,700,800|Lato:700,700i,300i,300,900i,900,400i,400|PT+Sans:700,700i,400i,400"
-	/>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="eos-voting.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+          href="//fonts.googleapis.com/css?family=Heebo:500,400,300,700,800|Lato:700,700i,300i,300,900i,900,400i,400|PT+Sans:700,700i,400i,400"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="eos-voting.css">
 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>EOSIO Block Producer Alarm</title>
 </head>
 
 <body>
-	<a href="https://github.com/bancorprotocol/vote.liquideos.com" target="_blank">
-		<img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"
-		 alt="Fork me on GitHub">
-	</a>
+<a href="https://github.com/javierjmc/eosbpalarm" target="_blank">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"
+         alt="Fork me on GitHub">
+</a>
 
-	<header>
+<header>
 
-		<div class="container text-center p-4">
-			<a href="https://www.liquideos.com/">
-				<img src="liquideos-logo.png" width="250px" class="mb-3">
-			</a>
-			<h1 class="text-white">EOS Block Producer Voting Tool</h1>
-		</div>
-	</header>
-	<div class="container bg-white">
-		<div class="row">
-			<div class="download-panel card">
-				<div class="card-body">
-					<h2>Please download our secured EOS Voting desktop application:</h2>
-					<a href="https://storage.googleapis.com/liquideos/voting-app/builds/liquideos-vote-macos-1.0.0.zip">
-						<button class="btn btn-dark btn-lg">
-							<i class="fab fa-apple"></i>&nbsp;&nbsp; Download for Mac</button>
-					</a>
-					<a href="https://storage.googleapis.com/liquideos/voting-app/builds/liquideos-vote-windows-1.0.0.zip">
-						<button class="btn btn-dark btn-lg">
-							<i class="fab fa-windows"></i>&nbsp;&nbsp; Download for Windows</button>
-					</a>
-					<a href="https://github.com/bancorprotocol/liquideos-voting-app">
-						<button class="btn btn-dark btn-lg">
-							<i class="fab fa-github"></i>&nbsp;&nbsp; Source &amp; Releases at GitHub</button>
-					</a>
-					<h4>Or use the web interface below</h4>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="alert alert-info">
-				<h4>
-					Downloadable EOS Voting Tool</h4>
-				<p>
-					We have decided to create a standalone EOS voting application that signs your transactions locally with your private key
-					and then executes the transaction on the blockchain. The reason for this is multi-fold:
+    <div class="container text-center p-4">
+        <a href="https://eos.io/">
+            <img src="eosio-logo.png" width="250px" class="mb-3">
+        </a>
+        <h1 class="text-white">EOSIO Block Producer Alarm</h1>
+    </div>
+</header>
+<div class="container bg-white">
+    <div class="mb-2">
+        <div class="form-group col-sm-3 float-right pr-0">
+            <input type="text" id="search" class="form-control" onkeyup="voter.search()" placeholder="Search..."/>
+        </div>
+    </div>
+    <table class="table table-striped" id="bps">
+        <thead>
+        <tr>
+            <th scope="col">Follow</th>
+            <th scope="col">Rank</th>
+            <th scope="col">Name</th>
+            <!-- <th scope="col">Location</th> -->
+            <th scope="col">Total Votes</th>
+            <th scope="col">Percentage of Votes</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 
-					<ul>
-						<li>The only EOS voting tool that is endorsed is a command line application which is difficult to install and use and will
-							greatly limit access to voting.</li>
-						<li>Scatter, the most popular EOS wallet, did not receive an official endorsement from the community as a safe voting tool
-							and many voters have reported having issues importing their accounts. </li>
-						<li>The alternative web voting interface below relies on Scatter, and even though your private key never leaves your browser,
-							we wanted to provide you an
-							<strong>extra level of security</strong> through an application that runs outside the browser and the potential reach of toolbars,
-							botnets and other bad actors.</li>
-					</ul>
+<footer class="text-center m-5">
+    <div class="text-white">Brought to you by
+        <a href="https://github.com/javierjmc">Javier Mendonça</a>
+    </div>
+</footer>
 
-					<!-- <p class="text-center"><a href='https://github.com/bancorprotocol/liquideos-voting-app'><img width="75" src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png">Download from GitHub</a></p> -->
-				</p>
-			</div>
-		</div>
-		<div class="row">
-			<!-- Boxes de Acoes -->
-
-			<div class="col-xs-12 col-sm-6 col-lg-4 pl-4">
-				<div class="box">
-					<div class="icon">
-						<div class="image">
-							<i class="fa fa-flag"></i>
-						</div>
-						<div class="info">
-							<h3 class="title">Download Scatter</h3>
-							<p>
-								Scatter is like MetaMask for the EOS blockchain. It is a browser extension that can sign transactions and run commands on
-								the blockchain directly from your browser.
-							</p>
-							<div class="more">
-								<a href="https://scatter-eos.com/" title="Download Scatter" target="_blank">
-									Download
-									<i class="fa fa-angle-double-right"></i>
-								</a>
-							</div>
-						</div>
-					</div>
-					<div class="space"></div>
-				</div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-lg-4 pr-4">
-				<div class="box">
-					<div class="icon">
-						<div class="image">
-							<i class="fa fa-thumbs-o-up"></i>
-						</div>
-						<div class="info">
-							<h3 class="title">Unlock your Scatter</h3>
-							<p>
-								You have to make sure that your scatter browser extension is unlocked.
-							</p>
-							<!--<div class="more">
-								<a href="#" title="Title Link">
-									Read More <i class="fa fa-angle-double-right"></i>
-								</a>
-							</div>-->
-						</div>
-
-					</div>
-					<div class="space"></div>
-				</div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-lg-4">
-				<div class="box">
-					<div class="icon">
-						<div class="image">
-							<i class="fa fa-desktop"></i>
-						</div>
-						<div class="info">
-							<h3 class="title">Import Private Key and Account</h3>
-							<p>
-								You should have an EOS public and private key from when you registered your tokens. You will need to import these keys into
-								Scatter so that it can sign transactions on your behalf on the blockchain.
-							</p>
-							<p>
-								Once you have a key and identity configured on scatter:<br/>
-								click <a
-								 href="#" onclick="initScatterOrVote()">here</a> or the "Init Scatter" to add the network endpoint for the eos blockchain.
-								</p>
-								<p>
-								Then, open scatter and edit your identity, under the account section, select the endpoint
-								for the mainnet chain (starts with aca3...) and the name of the key you just imported and click import. Then, select the account ending with @active. click
-								"Use Selected Account" and click save to save the Identity. Now that you are ready to vote, please click
-								<a
-								 href="#" onclick="initScatterOrVote()">here</a> or the "Init Scatter/Vote" button.
-							</p>
-
-							<!--<div class="more">
-
-								<a href="#" title="Title Link">
-									Read More <i class="fa fa-angle-double-right"></i>
-								</a>
-							</div>-->
-						</div>
-					</div>
-					<div class="space"></div>
-				</div>
-			</div>
-
-
-		</div>
-
-
-
-		<div class="card mt-3 mb-3">
-
-			<div class="card-body">
-				<h5 class="card-title">Command Line EOS App
-					<small>This requires the EOS dev environment installed on your local machine.</small>
-				</h5>
-				<hr>
-				<p class="card-text">
-					<div class="form-group">
-						<label for="cleos_name">Account Name</label>
-						<input type="text" id="cleos_name" placeholder="Required">
-						<small id="emailHelp" class="form-text text-muted">Your EOS Account Name.</small>
-					</div>
-
-					If you have cleos installed, you can copy paste this into your command line.
-					<div class="code" style="background-color: #222;border: 1px solid #999;display: block;padding: 20px; color:#00dd00">
-						./cleos.sh system voteproducer prods
-						<span id="cleos_account2">accountname</span>
-						<span id="cleos_bps">eosliquideos</span> -p
-						<span id="cleos_account">accountname</span>
-					</div>
-				</p>
-
-			</div>
-		</div>
-
-		<div class="mt-2" id="messages">
-
-		</div>
-
-		<div class="mb-2">
-
-			<button id="vote_button" class="btn btn-primary pl-5 pr-5" disabled="disabled">
-				Please install scatter
-			</button>
-			<div class="form-group col-sm-3 float-right pr-0">
-				<input type="text" id="search" class="form-control" onkeyup="voter.search()" placeholder="Search..." />
-			</div>
-		</div>
-		<table class="table table-striped" id="bps">
-			<thead>
-				<tr>
-					<th scope="col">Select</th>
-					<th scope="col">Owner</th>
-					<!-- <th scope="col">Location</th> -->
-					<th scope="col">Total Votes</th>
-					<th scope="col">Percentage of Votes</th>
-				</tr>
-			</thead>
-			<tbody>
-
-
-			</tbody>
-		</table>
-	</div>
-
-	<footer class="text-center m-5">
-		<div class="text-white">Brought to you by
-			<a href="https://liquideos.com">LiquidEOS.com</a>
-		</div>
-	</footer>
-
-	<script src="eosjs.js"></script>
-	<script type="text/javascript" src="eos-voting.js"></script>
-	<script type="text/javascript">
-
-	</script>
+<script src="eosjs.js"></script>
+<script type="text/javascript" src="eos-voting.js"></script>
 </body>
 
 </html>

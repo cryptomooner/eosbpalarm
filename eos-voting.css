@@ -1,71 +1,142 @@
-
 @import "//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css";
 @import "//fonts.googleapis.com/css?family=Roboto:400,500";
 
 body {
-	font-family: 'lato';
+    font-family: 'lato';
 }
 
 .progress-bar {
-	border-radius: 100px;
-  height: 10px;
-  margin-top: 4px;
+    border-radius: 100px;
+    height: 10px;
+    margin-top: 4px;
 }
 
 span.current-value {
-	padding-left: 6px;
-  font-size: 14px;
+    padding-left: 6px;
+    font-size: 14px;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-	background:#edf8ff;
+    background: #eaebef;
 }
 
 header {
-	background:#1f294c;
+    background: #eaebef;
 }
+
 body {
-	background:#1f294c;
+    background: #eaebef;
 }
 
 .bg-white {
-	padding-top:1px;
-	border-radius: 5px;
-	background: white;
-	padding-bottom: 3px;
+    padding-top: 1px;
+    border-radius: 5px;
+    background: white;
+    padding-bottom: 3px;
 }
+
 .btn-primary {
-	background:#6bb9d5;
-	border-color: #6bb9d5;
-	color:white;
+    background: #443f54 !important;
+    color: white;
 }
+
 .btn-primary:hover {
-	background-color:#5da1ba;
+    background-color: #443f54 !important;
 }
 
 .btn {
-	outline: none;
+    outline: none;
 }
 
+.box > .icon {
+    text-align: center;
+    position: relative;
+}
 
-.box > .icon { text-align: center; position: relative; }
-.box > .icon > .image { position: relative; z-index: 2; margin: auto; width: 88px; height: 88px; border: 8px solid white; line-height: 88px; border-radius: 50%; background: #1f294c; vertical-align: middle; }
-.box > .icon:hover > .image { background: #334377; }
-.box > .icon > .image > i { font-size: 36px !important; color: #fff !important; margin-top: 22px; }
-.box > .icon:hover > .image > i { color: white !important; }
-.box > .icon > .info { margin-top: -24px; background: rgba(0, 0, 0, 0.04); border: 1px solid #e0e0e0; padding: 15px 0 10px 0;min-height: 220px; }
-.box > .icon:hover > .info { background: rgba(0, 0, 0, 0.04); border-color: #e0e0e0; color: white; }
-.box > .icon > .info > h3.title { font-family: "Roboto",sans-serif !important; font-size: 16px; color: #222; font-weight: 500; margin-top: 20px;
-    margin-bottom: 10px; }
-.box > .icon > .info > p { font-family: "Roboto",sans-serif !important; font-size: 13px; color: #666; line-height: 1.5em; margin: 20px;}
-.box > .icon:hover > .info > h3.title, .box > .icon:hover > .info > p, .box > .icon:hover > .info > .more > a { color: #222; }
-.box > .icon > .info > .more a { font-family: "Roboto",sans-serif !important; font-size: 12px; color: #222; line-height: 12px; text-transform: uppercase; text-decoration: none; }
-.box > .icon:hover > .info > .more > a { color: #fff; padding: 6px 8px; background-color: #6bb9d5; }
-.box .space { height: 30px; }
+.box > .icon > .image {
+    position: relative;
+    z-index: 2;
+    margin: auto;
+    width: 88px;
+    height: 88px;
+    border: 8px solid white;
+    line-height: 88px;
+    border-radius: 50%;
+    background: #1f294c;
+    vertical-align: middle;
+}
 
-.download-panel{
-	text-align: center;
-	margin: 10px;
+.box > .icon:hover > .image {
+    background: #334377;
+}
+
+.box > .icon > .image > i {
+    font-size: 36px !important;
+    color: #fff !important;
+    margin-top: 22px;
+}
+
+.box > .icon:hover > .image > i {
+    color: white !important;
+}
+
+.box > .icon > .info {
+    margin-top: -24px;
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid #e0e0e0;
+    padding: 15px 0 10px 0;
+    min-height: 220px;
+}
+
+.box > .icon:hover > .info {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: #e0e0e0;
+    color: white;
+}
+
+.box > .icon > .info > h3.title {
+    font-family: "Roboto", sans-serif !important;
+    font-size: 16px;
+    color: #222;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.box > .icon > .info > p {
+    font-family: "Roboto", sans-serif !important;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5em;
+    margin: 20px;
+}
+
+.box > .icon:hover > .info > h3.title, .box > .icon:hover > .info > p, .box > .icon:hover > .info > .more > a {
+    color: #222;
+}
+
+.box > .icon > .info > .more a {
+    font-family: "Roboto", sans-serif !important;
+    font-size: 12px;
+    color: #222;
+    line-height: 12px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.box > .icon:hover > .info > .more > a {
+    color: #fff;
+    padding: 6px 8px;
+    background-color: #1f294c;
+}
+
+.box .space {
+    height: 30px;
+}
+
+.download-panel {
+    text-align: center;
+    margin: 10px;
     width: 100%;
 
 }
