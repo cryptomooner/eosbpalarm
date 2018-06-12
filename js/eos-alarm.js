@@ -122,12 +122,23 @@ var eosAlarm = class {
         };
 
         this.eosPublic = new Eos(config);
-        this.populateBlockProducers().then(res => {
-            this.buildTable(res);
-        });
+        this.populateBlockProducers().then(function (result) {
+            console.log(JSON.stringify(result, null, "    "))
+            this.buildTable(result);
+        }, this.handleError)
     }
 
-    buildTable(res) {
+    /**
+     * Handles errors.
+     *
+     * @param error Error to be handled.
+     * */
+    handleError(error) {
+        document.getElementById('error').innerText = error.message
+    }
+
+
+    buildTable(result) {
         this.countTotalVotes(res);
         let table = document.getElementsByTagName('tbody')[0];
         let sorted = res.rows.sort((a, b) => Number(a.total_votes) > Number(b.total_votes) ? -1 : 1);
