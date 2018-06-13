@@ -202,8 +202,10 @@ function checkRanking(rank) {
         audio = audios.fly
     } else if (favoriteBlockProducerRanking < rank) {
         audio = audios.down
+        alert(`${favoriteBlockProducerName} has gone down in the rank!`)
     } else if (favoriteBlockProducerRanking > rank) {
         audio = audios.levelUp
+        alert(`${favoriteBlockProducerName} has gone up in the rank!`)
     }
 
     playAudio(audio, rank === 1)
