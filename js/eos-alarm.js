@@ -73,7 +73,7 @@ var eosAlarm = class {
     selectBlockProducer() {
         let follows = document.getElementsByName('bpFollow');
 
-        for (var i = 0, length = follows.length; i < length; i++) {
+        for (let i = 0, length = follows.length; i < length; i++) {
             if (follows[i].checked) {
                 document.getElementById("following").innerText = "Following: ".concat(follows[i].value)
                 favoriteBlockProducerName = follows[i].value
@@ -124,28 +124,25 @@ var eosAlarm = class {
         let sorted = result.rows.sort((a, b) => Number(a.total_votes) > Number(b.total_votes) ? -1 : 1)
 
         for (let i = 0; i < sorted.length; i++) {
-            if(i == sorted.length -1){
-                let row1 = sorted[i]
-            }
-
             let row = sorted[i]
             let rowSanitized = sanitizeUrl(row.url)
             let tr = document.createElement('tr')
-            tr.setAttribute("id", 'row'+ i)
+            let rank = i + 1
+            tr.setAttribute("id", 'row' + i)
 
             tr.append(this.addTd('<input name="bpFollow" type="radio" value="' + row.owner + '" ' + (row.owner === favoriteBlockProducerName ? 'checked' : '') + ' >'))
-            tr.append(this.addTd(i + 1))
+            tr.append(this.addTd(rank))
             tr.append(this.addTd("<a href='" + rowSanitized + "'>" + row.owner + "</a>"))
             tr.append(this.addTd(this.cleanNumber(row.total_votes)))
             tr.append(this.addTd(this.createProgressBar(this.cleanPercent(this.voteNumber(row.total_votes) / this.votes))))
 
-            if(document.getElementById('row'+ i) != null){
+            if (document.getElementById('row' + i) != null) {
                 table.replaceChild(tr, table.childNodes[i])
             } else {
                 table.append(tr)
             }
 
-            if (row.owner === favoriteBlockProducerName) checkRanking(i + 1)
+            if (row.owner === favoriteBlockProducerName) checkRanking(rank)
         }
 
         document.getElementsByName("bpFollow").forEach(e => {
@@ -164,17 +161,18 @@ var eosAlarm = class {
     }
 
     search() {
+        let nameColumn = 2
         let input, filter, table, tr, td, i
         input = document.getElementById("search")
-        filter = input.value.toUpperCase()
+        filter = input.value.toLowerCase()
         table = document.getElementById("bps")
         tr = table.getElementsByTagName("tr")
 
         // Loop through all table rows, and hide those who don't match the search query
         for (i = 1; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[1]
+            td = tr[i].getElementsByTagName("td")[nameColumn]
             if (td) {
-                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                if (td.innerHTML.toLowerCase().indexOf(filter) > -1) {
                     tr[i].style.display = ""
                 } else {
                     tr[i].style.display = "none"
@@ -210,7 +208,7 @@ function load() {
 var eosAlarm = new eosAlarm();
 
 function checkRanking(rank) {
-    if(rank === favoriteBlockProducerRanking)
+    if (rank === favoriteBlockProducerRanking)
         return
 
     var audio
