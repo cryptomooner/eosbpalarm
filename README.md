@@ -4,5 +4,6 @@ The EOSIO BP rank alarm is a project to keep track of your favorite block produc
 
 See:<br/> 
 * [eos.io](https//:eos.io)
+* [eos sw/eden](https://eossweden.se/ )
 
 This project was forked from the [LiquidEOS Voting Portal](https://github.com/bancorprotocol/vote.liquideos.com).
