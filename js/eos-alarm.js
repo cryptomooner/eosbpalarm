@@ -44,25 +44,7 @@ const networks = [
     },
 ]
 
-var defaultIndex = 0
-if (this.location.protocol === "https:") {
-    defaultIndex = 1
-}
-
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href
-    name = name.replace(/[\[\]]/g, "\\$&")
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url)
-    if (!results) return null
-    if (!results[2]) return ''
-    return decodeURIComponent(results[2].replace(/\+/g, " "))
-}
-
-var networkParam = getParameterByName('network')
-if (networkParam)
-    defaultIndex = networkParam
-const network = networks[defaultIndex]
+const network = networks[0]
 
 var eosAlarm = class {
 
@@ -105,7 +87,6 @@ var eosAlarm = class {
     }
 
     refreshBlockProducers() {
-        console.log("control")
         let config = {
             chainId: network.chainId, // 32 byte (64 char) hex string
             expireInSeconds: 60,
