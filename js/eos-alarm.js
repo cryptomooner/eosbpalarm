@@ -197,6 +197,9 @@ var eosAlarm = new eosAlarm();
 eosAlarm.refreshBlockProducers()
 
 function checkRanking(rank) {
+    if(rank === favoriteBlockProducerRanking)
+        return
+
     var audio
     if (rank === 1) {
         audio = audios.fly
@@ -208,6 +211,7 @@ function checkRanking(rank) {
         alert(`${favoriteBlockProducerName} has gone up in the rank!`)
     }
 
+    favoriteBlockProducerRanking = rank
     playAudio(audio, rank === 1)
 }
 
