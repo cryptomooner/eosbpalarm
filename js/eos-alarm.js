@@ -70,16 +70,17 @@ var eosAlarm = class {
         return td;
     }
 
-    getSelectedBlockProducer() {
-        document.getElementsByName("bpFollow").forEach(function (bp) {
-            if (bp.checked) return bp.value;
-        });
-    }
-
     selectBlockProducer() {
-        let bp = this.getSelectedBlockProducer()
-        document.getElementById("following").innerText = "Following: ".concat(bp)
-        favoriteBlockProducerName = bp
+        let follows = document.getElementsByName('bpFollow');
+
+        for (var i = 0, length = follows.length; i < length; i++) {
+            if (follows[i].checked) {
+                document.getElementById("following").innerText = "Following: ".concat(follows[i].value)
+                favoriteBlockProducerName = follows[i].value
+                favoriteBlockProducerRanking = i + 1
+                break;
+            }
+        }
     }
 
     populateBlockProducers() {
@@ -94,6 +95,7 @@ var eosAlarm = class {
     }
 
     refreshBlockProducers() {
+        console.log("control")
         let config = {
             chainId: network.chainId, // 32 byte (64 char) hex string
             expireInSeconds: 60,
@@ -122,15 +124,26 @@ var eosAlarm = class {
         let sorted = result.rows.sort((a, b) => Number(a.total_votes) > Number(b.total_votes) ? -1 : 1)
 
         for (let i = 0; i < sorted.length; i++) {
+            if(i == sorted.length -1){
+                let row1 = sorted[i]
+            }
+
             let row = sorted[i]
             let rowSanitized = sanitizeUrl(row.url)
             let tr = document.createElement('tr')
-            table.append(tr)
-            tr.append(this.addTd('<input name="bpVote" type="radio" value="' + row.owner + '" ' + (row.owner === favoriteBlockProducerName ? 'checked' : '') + ' >'))
+            tr.setAttribute("id", 'row'+ i)
+
+            tr.append(this.addTd('<input name="bpFollow" type="radio" value="' + row.owner + '" ' + (row.owner === favoriteBlockProducerName ? 'checked' : '') + ' >'))
             tr.append(this.addTd(i + 1))
             tr.append(this.addTd("<a href='" + rowSanitized + "'>" + row.owner + "</a>"))
             tr.append(this.addTd(this.cleanNumber(row.total_votes)))
             tr.append(this.addTd(this.createProgressBar(this.cleanPercent(this.voteNumber(row.total_votes) / this.votes))))
+
+            if(document.getElementById('row'+ i) != null){
+                table.replaceChild(tr, table.childNodes[i])
+            } else {
+                table.append(tr)
+            }
 
             if (row.owner === favoriteBlockProducerName) checkRanking(i + 1)
         }
@@ -189,12 +202,12 @@ var eosAlarm = class {
     }
 }
 
-function refresh() {
+function load() {
     eosAlarm.refreshBlockProducers()
+    setInterval(() => eosAlarm.refreshBlockProducers(), 5000 * 1);
 }
 
 var eosAlarm = new eosAlarm();
-eosAlarm.refreshBlockProducers()
 
 function checkRanking(rank) {
     if(rank === favoriteBlockProducerRanking)
