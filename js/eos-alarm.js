@@ -116,6 +116,7 @@ var eosAlarm = class {
         this.populateBlockProducers().then((result) => {
             console.log(result)
             this.buildTable(result)
+            this.clearError()
         }, this.handleError)
     }
 
@@ -126,6 +127,13 @@ var eosAlarm = class {
      * */
     handleError(error) {
         document.getElementById('error').innerText = error.message
+    }
+
+    /**
+     * Clears error messages.
+     * */
+    clearError() {
+        document.getElementById('error').innerText = ''
     }
 
     buildTable(result) {
