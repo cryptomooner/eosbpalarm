@@ -134,8 +134,8 @@ body {
     height: 30px;
 }
 
-text-eos {
-    color: #443f54 !important
+button.text-eos {
+    color: #443f54 !important;
 }
 
 .download-panel {
@@ -143,4 +143,8 @@ text-eos {
     margin: 10px;
     width: 100%;
 
+}
+
+label.alarm-label {
+    color: #aaabaf;
 }

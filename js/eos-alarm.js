@@ -77,9 +77,17 @@ var eosAlarm = class {
 
         for (let i = 0, length = follows.length; i < length; i++) {
             if (follows[i].checked) {
+                let rank = i + 1
                 document.getElementById("following").innerText = "Following: ".concat(follows[i].value)
+                document.getElementById("rank").innerText = "Current rank: " + rank
                 favoriteBlockProducerName = follows[i].value
-                favoriteBlockProducerRanking = i + 1
+                favoriteBlockProducerRanking = rank
+
+                if (rank <= 21) {
+                    document.getElementById("message").innerText = "Congratulations! Your favorite block producer is within the 21 elected"
+                } else {
+                    document.getElementById("message").innerText = "Your favorite block producer is in standby!"
+                }
                 break
             }
         }
