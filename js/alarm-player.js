@@ -6,6 +6,8 @@ const audios = {
     powerUp: 'audio/smb3_power-up.wav',
 }
 
+var muted = false
+
 /**
  * Plays an audio source.
  *
@@ -13,7 +15,21 @@ const audios = {
  * @param loop Boolean whether the audio source is to be looped or not.
  * */
 function playAudio(audioSource, loop = false) {
-    let audio = new Audio(audioSource)
-    audio.loop = loop
-    audio.play()
+    if (!muted) {
+        let audio = new Audio(audioSource)
+        audio.loop = loop
+        audio.play()
+    }
+}
+
+/**
+ * (Un)Mutes the audio.
+ * */
+function muteSound() {
+    muted = !muted
+    if (muted) {
+        document.getElementById('sound-mute').innerText = 'Unmute'
+    } else {
+        document.getElementById('sound-mute').innerText = 'Mute'
+    }
 }

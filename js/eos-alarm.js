@@ -4,11 +4,13 @@ let ctrlCharactersRegex = /[^\x20-\x7E]/gmi
 let urlSchemeRegex = /^([^:]+):/gm
 let relativeFirstCharacters = ['.', '/']
 
+var alarmInterval = 1000 * 60 * 60 // 1h
+
 var favoriteBlockProducerName = 'eosswedenorg'
 var favoriteBlockProducerRanking = 500
 
 function isRelativeUrl(url) {
-    return relativeFirstCharacters.indexOf(url[0]) > -1;
+    return relativeFirstCharacters.indexOf(url[0]) > -1
 }
 
 function sanitizeUrl(url) {
@@ -67,18 +69,18 @@ var eosAlarm = class {
     addTd(text) {
         var td = document.createElement('td')
         td.innerHTML = text
-        return td;
+        return td
     }
 
     selectBlockProducer() {
-        let follows = document.getElementsByName('bpFollow');
+        let follows = document.getElementsByName('bpFollow')
 
         for (let i = 0, length = follows.length; i < length; i++) {
             if (follows[i].checked) {
                 document.getElementById("following").innerText = "Following: ".concat(follows[i].value)
                 favoriteBlockProducerName = follows[i].value
                 favoriteBlockProducerRanking = i + 1
-                break;
+                break
             }
         }
     }
@@ -91,7 +93,7 @@ var eosAlarm = class {
             "code": 'eosio',
             "table": "producers",
             "limit": 500
-        });
+        })
     }
 
     refreshBlockProducers() {
@@ -100,9 +102,9 @@ var eosAlarm = class {
             chainId: network.chainId, // 32 byte (64 char) hex string
             expireInSeconds: 60,
             httpEndpoint: "http" + (network.secured ? 's' : '') + '://' + network.host + ':' + network.port
-        };
+        }
 
-        this.eosPublic = new Eos(config);
+        this.eosPublic = new Eos(config)
         this.populateBlockProducers().then((result) => {
             console.log(result)
             this.buildTable(result)
@@ -150,11 +152,11 @@ var eosAlarm = class {
         })
 
         this.selectBlockProducer()
-        return table;
+        return table
     }
 
     countTotalVotes(result) {
-        this.votes = 0;
+        this.votes = 0
         for (let i = result.rows.length - 1; i >= 0; i--) {
             this.votes += this.voteNumber(result.rows[i].total_votes)
         }
@@ -182,17 +184,17 @@ var eosAlarm = class {
     }
 
     voteNumber(total_votes) {
-        return parseInt(parseInt(total_votes) / 1e10 * 2.8);
+        return parseInt(parseInt(total_votes) / 1e10 * 2.8)
     }
 
     cleanNumber(num) {
-        num = this.voteNumber(num);
+        num = this.voteNumber(num)
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     }
 
     createProgressBar(pct) {
         return '<div class="progress-bar active float-left" role="progressbar" style="width:' + pct + '">&nbsp;</div>' +
-            '<span class="text-dark current-value">' + pct + '</span>';
+            '<span class="text-dark current-value">' + pct + '</span>'
     }
 
     cleanPercent(num) {
@@ -202,10 +204,10 @@ var eosAlarm = class {
 
 function load() {
     eosAlarm.refreshBlockProducers()
-    setInterval(() => eosAlarm.refreshBlockProducers(), 5000 * 1);
+    setInterval(() => eosAlarm.refreshBlockProducers(), alarmInterval)
 }
 
-var eosAlarm = new eosAlarm();
+var eosAlarm = new eosAlarm()
 
 function checkRanking(rank) {
     if (rank === favoriteBlockProducerRanking)
