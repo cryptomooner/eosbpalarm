@@ -242,5 +242,10 @@ function checkRanking(rank) {
 
     favoriteBlockProducerRanking = rank
     playAudio(audio, rank === 1)
+    setLastUpdateTime()
+}
+
+function setLastUpdateTime(){
+    document.getElementById("last-update").innerText = 'Last updated: ' + new Date().toLocaleString()
 }
 
