@@ -11,7 +11,6 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>EOSIO Block Producer Alarm</title>
-    <!-- <meta http-equiv="refresh" content="30"> -->
 </head>
 
 <body onload="load()">
@@ -22,7 +21,6 @@
 </a>
 
 <header>
-
     <div class="container text-center p-4">
         <a href="https://eos.io/">
             <img src="eosio-logo.png" width="250px" class="mb-3">
@@ -31,12 +29,15 @@
         <button id="sound-mute" class="btn-primary" onclick="muteSound()">Mute</button>
         <p/>
         <h4 id="following"></h4>
-        <h4 id="rank"></h4>
         <h6 id="message"></h6>
         <h4 id="error"></h4>
         <br/>
-        <label class="alarm-label">The alarm is triggered every 60 min.</label>
         <label class="alarm-label" id="last-update"></label>
+    </div>
+
+    <div class="slidecontainer text-center">
+        <input type="range" min="1" max="60" value="3" class="slider" id="refresh-slider">
+        <p id="refresh-rate">Refresh rate: 3 min</p>
     </div>
 </header>
 <div class="container bg-white">

@@ -3,8 +3,9 @@ let invalidPrototcolRegex = /^(%20|\s)*(javascript|data)/im
 let ctrlCharactersRegex = /[^\x20-\x7E]/gmi
 let urlSchemeRegex = /^([^:]+):/gm
 let relativeFirstCharacters = ['.', '/']
+let minute = 1000 * 60
 
-var alarmInterval = 1000 * 60 * 60 // 1h
+var alarmInterval = minute * 3 // 3m by default
 
 var favoriteBlockProducerName = 'eosswedenorg'
 var favoriteBlockProducerRanking = 500
@@ -60,8 +61,7 @@ var eosAlarm = class {
         for (let i = 0, length = follows.length; i < length; i++) {
             if (follows[i].checked) {
                 let rank = i + 1
-                document.getElementById("following").innerText = "Following: ".concat(follows[i].value)
-                document.getElementById("rank").innerText = "Current rank: " + rank
+                document.getElementById("following").innerText = "Following: ".concat(follows[i].value).concat(" | ").concat("Current rank: " + rank)
                 favoriteBlockProducerName = follows[i].value
                 favoriteBlockProducerRanking = rank
 
@@ -201,32 +201,53 @@ var eosAlarm = class {
 
 function load() {
     eosAlarm.refreshBlockProducers()
-    setInterval(() => eosAlarm.refreshBlockProducers(), alarmInterval)
+    setRefreshInterval(alarmInterval)
+}
+
+var interval
+function setRefreshInterval(timeInterval){
+    interval = setInterval(() => eosAlarm.refreshBlockProducers(), timeInterval)
 }
 
 var eosAlarm = new eosAlarm()
 
-function checkRanking(rank) {
-    if (rank === favoriteBlockProducerRanking)
+function checkRanking(newRank) {
+    if (newRank === favoriteBlockProducerRanking)
         return
 
     var audio
-    if (rank === 1) {
+
+    var rankUp
+    if (newRank === 1) {
         audio = audios.fly
-    } else if (favoriteBlockProducerRanking < rank) {
+    } else if (newRank > 21){
+        audio = audios.standby
+        rankUp = false
+    } else if (favoriteBlockProducerRanking < newRank) {
         audio = audios.down
-        alert(`${favoriteBlockProducerName} has gone down in the rank!`)
-    } else if (favoriteBlockProducerRanking > rank) {
-        audio = audios.levelUp
-        alert(`${favoriteBlockProducerName} has gone up in the rank!`)
+        rankUp = false
+    } else if (favoriteBlockProducerRanking > newRank) {
+        audio = newRank === 21 ? audios.powerUp : audios.levelUp
+        rankUp = true
     }
 
-    favoriteBlockProducerRanking = rank
-    playAudio(audio, rank === 1)
+    favoriteBlockProducerRanking = newRank
+    playAudio(audio, newRank === 1)
     setLastUpdateTime()
+    alert(rankUp ? `${favoriteBlockProducerName} has gone up in the rank!` : `${favoriteBlockProducerName} has gone down in the rank!`)
 }
 
-function setLastUpdateTime(){
+function setLastUpdateTime() {
     document.getElementById("last-update").innerText = 'Last updated: ' + new Date().toLocaleString()
 }
 
+let refreshSlider = document.getElementById("refresh-slider");
+let sliderOutput = document.getElementById("refresh-rate");
+sliderOutput.innerHTML = `Refresh rate: ` + refreshSlider.value + ` min`;
+
+refreshSlider.oninput = function() {
+    sliderOutput.innerHTML = `Refresh rate: ` + this.value + ` min`;
+    clearInterval(interval)
+    interval = setRefreshInterval(minute * this.value)
+    console.log(`refresh time set to ` + this.value + ` min`)
+}

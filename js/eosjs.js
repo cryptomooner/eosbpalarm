@@ -15827,7 +15827,7 @@ function numberIsNaN (obj) {
         var lxiv = {};
 
         /**
-         * Character codes for output.
+         * Character codes for sliderOutput.
          * @type {!Array.<number>}
          * @inner
          */
@@ -25537,7 +25537,7 @@ function verifyRaw(curve, e, signature, Q) {
   // 1.4.7 Set v = xR mod n
   var v = xR.mod(n);
 
-  // 1.4.8 If v = r, output "valid", and if v != r, output "invalid"
+  // 1.4.8 If v = r, sliderOutput "valid", and if v != r, sliderOutput "invalid"
   return v.equals(r);
 }
 
@@ -31455,7 +31455,7 @@ function forEach(xs, f) {
 
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
-// Every written chunk gets output as-is.
+// Every written chunk gets sliderOutput as-is.
 
 'use strict';
 
@@ -32517,7 +32517,7 @@ function indexOf(xs, x) {
 // some bits pass through, and others are simply ignored.  (That would
 // be a valid example of a transform, of course.)
 //
-// While the output is causally related to the input, it's not a
+// While the sliderOutput is causally related to the input, it's not a
 // necessarily symmetric or synchronous transformation.  For example,
 // a zlib stream might take multiple plain-text writes(), and then
 // emit a single compressed chunk some time in the future.
@@ -32533,7 +32533,7 @@ function indexOf(xs, x) {
 // In a transform stream, the written data is placed in a buffer.  When
 // _read(n) is called, it transforms the queued up data, calling the
 // buffered _write cb's as it consumes chunks.  If consuming a single
-// written chunk would result in multiple output chunks, then the first
+// written chunk would result in multiple sliderOutput chunks, then the first
 // outputted bit calls the readcb, and subsequent chunks just go into
 // the read buffer, and will cause it to emit 'readable' if necessary.
 //
@@ -32542,9 +32542,9 @@ function indexOf(xs, x) {
 // a pathological inflate type of transform can cause excessive buffering
 // here.  For example, imagine a stream where every byte of input is
 // interpreted as an integer from 0-255, and then results in that many
-// bytes of output.  Writing the 4 bytes {ff,ff,ff,ff} would result in
-// 1kb of data being output.  In this case, you could write a very small
-// amount of input, and end up with a very large amount of output.  In
+// bytes of sliderOutput.  Writing the 4 bytes {ff,ff,ff,ff} would result in
+// 1kb of data being sliderOutput.  In this case, you could write a very small
+// amount of input, and end up with a very large amount of sliderOutput.  In
 // such a pathological inflating mechanism, there'd be no way to tell
 // the system to stop doing the transform.  A single 4MB write could
 // cause the system to run out of memory.
@@ -32642,7 +32642,7 @@ Transform.prototype.push = function (chunk, encoding) {
 // override this function in implementation classes.
 // 'chunk' is an input chunk.
 //
-// Call `push(newChunk)` to pass along transformed output
+// Call `push(newChunk)` to pass along transformed sliderOutput
 // to the readable side.  You may call 'push' zero or more times.
 //
 // Call `cb(err)` when you are done with this chunk.  If you pass
@@ -35036,7 +35036,7 @@ function utf8Text(buf, i) {
 }
 
 // For UTF-8, a replacement character for each buffered byte of a (partial)
-// character needs to be added to the output.
+// character needs to be added to the sliderOutput.
 function utf8End(buf) {
   var r = buf && buf.length ? this.write(buf) : '';
   if (this.lastNeed) return r + '\ufffd'.repeat(this.lastTotal - this.lastNeed);
@@ -35362,7 +35362,7 @@ exports.debuglog = function(set) {
  * in the best way possible given the different types.
  *
  * @param {Object} obj The object to print out.
- * @param {Object} opts Optional options object that alters the output.
+ * @param {Object} opts Optional options object that alters the sliderOutput.
  */
 /* legacy: obj, showHidden, depth, colors*/
 function inspect(obj, opts) {

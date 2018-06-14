@@ -1,13 +1,13 @@
 const audios = {
     levelUp: 'audio/smb3_1-up.wav',
-    pipe: 'audio/smb3_pipe.wav',
-    down: 'audio/smb3_player_down.wav',
+    down: 'audio/smb3_pipe.wav',
     fly: 'audio/smb3_pmeter.wav',
     powerUp: 'audio/smb3_power-up.wav',
+    standby: 'audio/smb_mariodie.wav'
 }
 
 var muted = false
-
+var audio
 /**
  * Plays an audio source.
  *
@@ -16,7 +16,7 @@ var muted = false
  * */
 function playAudio(audioSource, loop = false) {
     if (!muted) {
-        let audio = new Audio(audioSource)
+        audio = new Audio(audioSource)
         audio.loop = loop
         audio.play()
     }
@@ -29,7 +29,11 @@ function muteSound() {
     muted = !muted
     if (muted) {
         document.getElementById('sound-mute').innerText = 'Unmute'
+        audio.pause()
     } else {
         document.getElementById('sound-mute').innerText = 'Mute'
+        if(audio.loop === true){
+            audio.play()
+        }
     }
 }

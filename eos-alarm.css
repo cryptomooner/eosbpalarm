@@ -148,3 +148,8 @@ button.text-eos {
 label.alarm-label {
     color: #aaabaf;
 }
+
+.slidecontainer {
+    width: 200px;
+    margin: 0 auto;
+}
