@@ -217,24 +217,19 @@ function checkRanking(newRank) {
 
     var audio
 
-    var rankUp
     if (newRank === 1) {
         audio = audios.fly
     } else if (newRank > 21){
         audio = audios.standby
-        rankUp = false
     } else if (favoriteBlockProducerRanking < newRank) {
         audio = audios.down
-        rankUp = false
     } else if (favoriteBlockProducerRanking > newRank) {
         audio = newRank === 21 ? audios.powerUp : audios.levelUp
-        rankUp = true
     }
 
     favoriteBlockProducerRanking = newRank
     playAudio(audio, newRank === 1)
     setLastUpdateTime()
-    alert(rankUp ? `${favoriteBlockProducerName} has gone up in the rank!` : `${favoriteBlockProducerName} has gone down in the rank!`)
 }
 
 function setLastUpdateTime() {
