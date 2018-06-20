@@ -70,8 +70,7 @@ function setRankIcon(newRank) {
 /**
  * Clears the rank icon for the favorite block producer.
  * */
-function clearRankIcon() {
-    let rankIconElement = document.getElementById("rankIcon")
+function clearRankIcon(rankIconElement) {
     rankIconElement.innerHTML = ""
     rankIconElement.setAttribute("id", '')
 }
@@ -98,6 +97,7 @@ function selectBlockProducer() {
             }
         } else {
             follows[i].parentElement.parentElement.className = ''
+            // clearRankIcon(follows[i].parentElement.parentElement.childNodes[2])
         }
     }
 }
@@ -163,7 +163,6 @@ function buildTable(producers) {
     }
 
     document.getElementsByName("bpFollow").forEach(e => {
-        clearRankIcon()
         e.onclick = selectBlockProducer
     })
 
