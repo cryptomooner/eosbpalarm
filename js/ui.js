@@ -68,6 +68,15 @@ function setRankIcon(newRank) {
 }
 
 /**
+ * Clears the rank icon for the favorite block producer.
+ * */
+function clearRankIcon() {
+    let rankIconElement = document.getElementById("rankIcon")
+    rankIconElement.innerHTML = ""
+    rankIconElement.setAttribute("id", '')
+}
+
+/**
  * Selects a block producer, updating the ui elements showing its ranking.
  * */
 function selectBlockProducer() {
@@ -87,7 +96,8 @@ function selectBlockProducer() {
             } else {
                 document.getElementById("message").innerText = "Your favorite block producer is in standby!"
             }
-            break
+        } else {
+            follows[i].parentElement.parentElement.className = ''
         }
     }
 }
@@ -153,6 +163,7 @@ function buildTable(producers) {
     }
 
     document.getElementsByName("bpFollow").forEach(e => {
+        clearRankIcon()
         e.onclick = selectBlockProducer
     })
 
