@@ -72,7 +72,7 @@ var chainState
 function getChainState() {
     getEosTable("global", 1).then((result) => {
         console.log('ChainState: ' + JSON.stringify(result.rows[0]))
-        chainState = result
+        chainState = result.rows[0]
     }, handleError)
 }
 

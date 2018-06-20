@@ -91,7 +91,7 @@ var eosAlarm = class {
 
     refreshBlockProducers() {
         getEosTable("producers").then((result) => {
-            console.log('Producers: ' + + JSON.stringify(result))
+            console.log('Producers: ' + JSON.stringify(result))
             this.buildTable(result)
             clearError()
         }, handleError)
