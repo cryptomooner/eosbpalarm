@@ -17544,7 +17544,7 @@ Curve.prototype.isOnCurve = function (Q) {
   var b = this.b
   var p = this.p
 
-  // Check that xQ and yQ are integers in the interval [0, p - 1]
+  // Check that xQ and yQ are integers in the refreshInterval [0, p - 1]
   if (x.signum() < 0 || x.compareTo(p) >= 0) return false
   if (y.signum() < 0 || y.compareTo(p) >= 0) return false
 
@@ -19034,7 +19034,7 @@ function deterministicGenerateK(curve, hash, d, checkSig, nonce) {
 
   var T = BigInteger.fromBuffer(v);
 
-  // Step H3, repeat until T is within the interval [1, n - 1]
+  // Step H3, repeat until T is within the refreshInterval [1, n - 1]
   while (T.signum() <= 0 || T.compareTo(curve.n) >= 0 || !checkSig(T)) {
     k = crypto.HmacSHA256(Buffer.concat([v, new Buffer([0])]), k);
     v = crypto.HmacSHA256(v, k);
@@ -19088,7 +19088,7 @@ function verifyRaw(curve, e, signature, Q) {
   var r = signature.r;
   var s = signature.s;
 
-  // 1.4.1 Enforce r and s are both integers in the interval [1, n − 1]
+  // 1.4.1 Enforce r and s are both integers in the refreshInterval [1, n − 1]
   if (r.signum() <= 0 || r.compareTo(n) >= 0) return false;
   if (s.signum() <= 0 || s.compareTo(n) >= 0) return false;
 

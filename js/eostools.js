@@ -48,6 +48,9 @@ let config = {
     httpEndpoint: "http" + (network.secured ? 's' : '') + '://' + network.host + ':' + network.port
 }
 
+/**
+ * Gets an instance of Eos.
+ * */
 function getEos() {
     return new Eos(config)
 }
@@ -69,6 +72,10 @@ function getEosTable(table, limit = 500, index = "", tableKey = "") {
 }
 
 var chainState
+
+/**
+ * Gets the state of the chain.
+ * */
 function getChainState() {
     getEosTable("global", 1).then((result) => {
         console.log('ChainState: ' + JSON.stringify(result.rows[0]))
@@ -76,6 +83,22 @@ function getChainState() {
     }, handleError)
 }
 
+/**
+ * Refreshes block producers table.
+ * */
+function refreshBlockProducers() {
+    getEosTable("producers").then((result) => {
+        console.log('Producers: ' + JSON.stringify(result))
+        this.buildTable(result.rows.filter((producer) => producer.is_active))
+        clearError()
+    }, handleError)
+}
+
+/**
+ * Converts the given number to a string separated by commas.
+ *
+ * @param number number to be transformed.
+ * */
 // Kudods to eosportal
 function numberWithCommas(number) {
     number = number.toString()
@@ -85,6 +108,9 @@ function numberWithCommas(number) {
     return number
 }
 
+/**
+ * Calculates the vote weight for the chain.
+ * */
 // Kudos to CryptoLions
 function calculateVoteWeight() {
 
