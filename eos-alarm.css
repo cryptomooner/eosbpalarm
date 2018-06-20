@@ -138,6 +138,10 @@ button.text-eos {
     color: #443f54 !important;
 }
 
+tr.selected {
+    background: #f5f5f5;
+}
+
 .download-panel {
     text-align: center;
     margin: 10px;
