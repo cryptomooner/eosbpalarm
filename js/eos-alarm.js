@@ -4,10 +4,6 @@ const rankIcons = {
     minus: 'img/minus.png'
 }
 
-const ENUM_RANK_UP = 0,
-    ENUM_RANK_DOWN = 1,
-    ENUM_RANK_SAME = 2;
-
 const FIRST = 1
 const SELECTED_BP_LIMIT = 21
 
@@ -42,21 +38,21 @@ function setRefreshInterval(timeInterval) {
  * @param newRank is the rank of the block producer after the refresh interval got triggered.
  * */
 function checkRanking(newRank) {
-    if (newRank === favoriteBlockProducerCurrentRanking)
+    if (newRank === favoriteBlockProducerCurrentRanking){
         return
+    }
 
     var audio
     if (newRank === FIRST) {
         audio = audios.fly
-    } else if (newRank > SELECTED_BP_LIMIT) {
+    } else if (newRank > SELECTED_BP_LIMIT) { //went to standby mode
         audio = audios.standby
-    } else if (favoriteBlockProducerCurrentRanking < newRank) {
+    } else if (favoriteBlockProducerCurrentRanking < newRank) { //went down in rank
         audio = audios.down
-    } else if (favoriteBlockProducerCurrentRanking > newRank) {
+    } else if (favoriteBlockProducerCurrentRanking > newRank) { //went up in rank
         audio = newRank === SELECTED_BP_LIMIT ? audios.powerUp : audios.levelUp
     }
 
-    favoriteBlockProducerCurrentRanking = newRank
     playAudio(audio, newRank === FIRST)
     setLastUpdateTime()
 }

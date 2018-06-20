@@ -26,38 +26,45 @@ function setLastUpdateTime() {
  *
  * @param text Content to create the td element with.
  * */
-function addTd(text) {
+function addTd(text = "", id = "") {
     let td = document.createElement('td')
     td.innerHTML = text
+    td.setAttribute("id", id)
     return td
 }
 
 /**
  * Creates an img element.
  *
- * @param rankEnum Content to create the img element with.
+ * @param src Content to create the img element with.
  * */
-function addImg(rankEnum) {
+function addImg(src) {
     let img = document.createElement('img');
     img.width = 24
     img.height = 24
     img.align = 'middle'
     img.display = 'block'
+    img.src = src
 
-    switch (rankEnum) {
-        case ENUM_RANK_UP:
-            img.src = rankIcons.arrowUp
-            break
-        case ENUM_RANK_DOWN:
-            img.src = rankIcons.arrowDown
-            break
-        case ENUM_RANK_SAME:
-            img.src = rankIcons.minus
-            break
-        default:
-            console.log("Case not implemented for adding a rank image.")
-    }
     return img
+}
+
+/**
+ * Sets the rank icon for the favorite block producer.
+ *
+ * @param newRank is the rank of the block producer after the refresh interval got triggered.
+ * */
+function setRankIcon(newRank) {
+    var rankIcon
+    if (newRank === favoriteBlockProducerCurrentRanking) {
+        rankIcon = rankIcons.minus
+    } else if (favoriteBlockProducerCurrentRanking < newRank) { //went down in rank
+        rankIcon = rankIcons.arrowDown
+    } else if (favoriteBlockProducerCurrentRanking > newRank) { //went up in rank
+        rankIcon = rankIcons.arrowUp
+    }
+
+    document.getElementById("rankIcon").appendChild(addImg(rankIcon))
 }
 
 /**
@@ -73,7 +80,9 @@ function selectBlockProducer() {
             favoriteBlockProducerName = follows[i].value
             favoriteBlockProducerCurrentRanking = rank
 
-            if (rank <= 21) {
+            follows[i].parentElement.parentElement.className = 'selected'
+
+            if (rank <= SELECTED_BP_LIMIT) {
                 document.getElementById("message").innerText = "Congratulations! Your favorite block producer is within the 21 elected"
             } else {
                 document.getElementById("message").innerText = "Your favorite block producer is in standby!"
@@ -125,7 +134,7 @@ function buildTable(producers) {
 
         tr.append(addTd('<input name="bpFollow" type="radio" value="' + producer.owner + '" ' + (producer.owner === favoriteBlockProducerName ? 'checked' : '') + ' >'))
         tr.append(addTd(rank))
-        tr.append(addImg(ENUM_RANK_UP))
+        tr.append(addTd("", producer.owner === favoriteBlockProducerName ? "rankIcon" : ""))
         tr.append(addTd("<a href='" + rowSanitized + "'>" + producer.owner + "</a>"))
         tr.append(addTd((producer.total_votes / chainState.total_producer_vote_weight * 100).toFixed(3)))
         tr.append(addTd(numberWithCommas((producer.total_votes / calculateVoteWeight() / 10000).toFixed(0))))
@@ -136,7 +145,11 @@ function buildTable(producers) {
             table.append(tr)
         }
 
-        if (producer.owner === favoriteBlockProducerName) checkRanking(rank)
+        if (producer.owner === favoriteBlockProducerName) {
+            checkRanking(rank)
+            setRankIcon(rank)
+            favoriteBlockProducerCurrentRanking = rank
+        }
     }
 
     document.getElementsByName("bpFollow").forEach(e => {
